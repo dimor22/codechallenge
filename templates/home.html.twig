@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets%}
+    {{ parent() }}
+
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
+
+{% endblock %}
+
+{% block title %}
+    Home Page
+{% endblock %}
+
+{% block body %}
+<h1>Change Calculator</h1>
+<form action="">
+    <label for="total-cost">Total Cost</label>
+    <input type="text" id="total-cost" name="cost" required autofocus>
+
+    <label for="number">Paid</label>
+    <input type="text" id="paid" name="paid" required>
+
+    <button type="submit">Pay</button>
+</form>
+
+<table id="result">
+    <tr>
+        <td>Cost:</td>
+        <td id="display-cost">$0</td>
+    </tr>
+    <tr>
+        <td>Paid:</td>
+        <td id="display-paid">$0</td>
+    </tr>
+    <tr>
+        <td>Change:</td>
+        <td id="display-change">$0</td>
+    </tr>
+    <tr>
+        <td>Breakdown:</td>
+        <td id="display-breakdown">$0</td>
+    </tr>
+</table>
+{% endblock %}

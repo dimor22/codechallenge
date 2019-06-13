@@ -2,11 +2,58 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            {#<script src="{{ asset('js/app.js') }}"></script>#}
+            <script
+                    src="https://code.jquery.com/jquery-3.4.1.min.js"
+                    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                    crossorigin="anonymous"></script>
+
+            <script>
+                let route = "{{ path('api_get_change')|escape('js') }}";
+
+                $('form').submit( function ( event) {
+                    event.preventDefault();
+                    let data = $('form').serialize();
+                    $.ajax({
+                        url: route,
+                        data: data,
+                        success: function (res) {
+
+                            $('#display-cost').html("");
+                            $('#display-paid').html("");
+                            $('#display-change').html("");
+                            $('#display-breakdown').html("");
+
+                            $('#paid').val("");
+                            $('#total-cost').val("");
+
+                            //let results = JSON.parse(res);
+                            $('#display-cost').html("$" + res.change.cost);
+                            $('#display-paid').html("$" + res.change.paid);
+                            $('#display-change').html("$" + res.change.change);
+
+                            let breakdown = document.createElement("ul");
+
+                            for ( var i=0; i < res.change.breakdown.length; i++){
+                                var li = '';
+                                for (var prop in res.change.breakdown[i]){
+                                    li += res.change.breakdown[i][prop] + " ";
+                                }
+                                $(breakdown).append("<li>" + li +" </li>")
+                            }
+
+                            $('#display-breakdown').append(breakdown);
+
+                        }
+                    })
+                })
+            </script>
+        {% endblock %}
     </body>
 </html>
