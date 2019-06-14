@@ -69,13 +69,16 @@ class MoneyChange
 
     /**
      * @param float $number
-     * @throws \Exception
+     * @return bool
      */
-    public function validate_input(float $number)
+    public function validate_input(float $number) : bool
     {
         if ( $number < 0.01 ){
-            throw new \Exception('Paid amount must be greater than 0');
+            //throw new \Exception('Paid amount must be greater than 0');
+            return false;
         }
+
+        return true;
     }
 
     /**
@@ -88,11 +91,12 @@ class MoneyChange
     }
 
     /**
+     * If the pay is exact or less than the cost ther change will always equal 0
      * @param $cost
      * @param $pay
      * @return bool
      */
-    public function validate_pay($cost, $pay)
+    public function validate_pay($cost, $pay) : bool
     {
         if ( ($cost == $pay) || ($pay < $cost) ) {
             return false;
